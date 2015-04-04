@@ -1,0 +1,19 @@
+---
+# This role installs the webserver and deploys the static files in /var/www/html
+
+# Install Apache2 and unzip
+# - name: Install tomcat
+#   apt: pkg={{ item }} state=present
+#   with_items:
+#    - tomcat7
+#
+# - name: Setup fstab for NFS mount
+#   
+# - name: Mount NFS share 
+#   
+# - name: Setup Prevayler Persistence file
+# 
+# - name: Deploy the War
+#
+# - name: Start tomcat and enable for startup
+#   service: name=tomcat8 state=started enabled=yes

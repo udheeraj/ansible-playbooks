@@ -1,0 +1,4 @@
+---
+# This role installs the NFS storage
+
+# - name: Partition the EBS volume

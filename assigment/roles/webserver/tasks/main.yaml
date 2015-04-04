@@ -1,0 +1,21 @@
+---
+# This role installs the webserver and deploys the static files in /var/www/html
+
+# Install Apache2 and unzip
+ - name: Install latest apache2 and unzip
+   apt: pkg={{ item }} state=present
+   with_items:
+    - apache2
+    - unzip
+
+# Copy the static file, unarchive module recommended but no option to exclude files
+ - name: Copy the static zip to tmp
+   copy: src=/home/ubuntu/static.zip dest=/tmp/static.zip
+
+# Uncompress the zip, extract only files excluding hidden files
+ - name: Uncompress the zip
+   command:  unzip -u -j /tmp/static.zip -d /var/www/html/ -x "*/._*"
+
+# Start Apache2 and enable for startup
+ - name: Ensure apache is running and enable it
+   service: name=apache2 state=started enabled=yes
