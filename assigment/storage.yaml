@@ -1,0 +1,15 @@
+---
+
+# This role installs the NFS storage
+ - hosts: storage
+   vars:
+    device: xvdb # TODO: Pick this up from EC2
+    partition: xvdb1 #TODO: Derive from device above
+    fstype: xfs
+    export: /share #TODO: Move this is to group vars
+    app_servers:  [172.30.0.221,172.30.0.222,172.30.0.0/24] # TODO: Derive this from EC2
+    tomcat_user: tomcat #TODO: Move this to group vars
+   user: ubuntu
+   sudo: yes
+   roles:
+    - storage

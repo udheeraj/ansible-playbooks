@@ -1,19 +1,42 @@
 ---
-# This role installs the webserver and deploys the static files in /var/www/html
+# Add Tomcat group
+ - name: Setup  tomcat_user  group
+   group: name={{ tomcat_user }} gid={{ tomcat_gid }}
 
-# Install Apache2 and unzip
-# - name: Install tomcat
-#   apt: pkg={{ item }} state=present
-#   with_items:
-#    - tomcat7
-#
-# - name: Setup fstab for NFS mount
-#   
-# - name: Mount NFS share 
-#   
-# - name: Setup Prevayler Persistence file
-# 
-# - name: Deploy the War
-#
-# - name: Start tomcat and enable for startup
-#   service: name=tomcat8 state=started enabled=yes
+# Add Tomcat user, doing this instead of a package to have consistent
+# id across hosts and NFS server
+ - name: Setup tomcat user
+   user: name={{ tomcat_user }} comment="Apache Tomcat" uid={{ tomcat_uid }} group={{ tomcat_user }} shell=/bin/nologin
+
+# Install tomcat 
+ - name: Install tomcat
+   yum: pkg={{ tomcat_ver }} state=present
+
+# Install NFS utils
+ - name: Install NFS client
+   yum: pkg=nfs-utils state=present
+
+# Mount NFS share
+ - name: Mounting NFS share
+   mount: name={{ apps_dir }} src={{ nfs_share }} state=mounted fstype=nfs
+
+# Create Persistence dir on NFS share
+ - name: Create Persistence dir
+   file: dest={{ apps_dir }}/persistence mode=755 owner=tomcat state=directory
+
+# Create Persistence Directory if missing
+ - name: Create Persistence Directory
+   file: dest=/home/russell state=directory
+
+# Create symlink
+ - name: Create Symlink to NFS share
+   file: path=/home/russell/persistence src={{ apps_dir }}/persistence state=link
+
+# Deploy the war file
+ - name: Copy the war
+   copy: src=/home/ubuntu/companyNews.war dest=/usr/share/{{ tomcat_ver }}/webapps/
+ 
+# Start Tomcat and enable at startup
+ - name: Ensure tomcat is running and enable it
+   service: name={{ tomcat_ver }} state=started enabled=yes
+#   when: host is master, figure out from the ec2 tag

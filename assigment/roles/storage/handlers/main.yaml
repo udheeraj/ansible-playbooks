@@ -1,0 +1,3 @@
+# Reload exports everytime there is a change
+ - name: Reload exports
+   command: exportfs -r

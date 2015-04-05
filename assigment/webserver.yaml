@@ -1,0 +1,7 @@
+---
+# Configure and deploy web server.
+ - hosts: webservers
+   user: ubuntu
+   sudo: yes
+   roles:
+   - webserver

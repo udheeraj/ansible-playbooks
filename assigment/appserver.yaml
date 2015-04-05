@@ -1,26 +1,4 @@
 ---
-
-# Applying common to all hosts
- - hosts: all
-   remote_user: ubuntu
-   sudo: yes
-   roles:
-   - common
-
-# Configure and deploy web server.
- - hosts: webservers
-   user: ubuntu
-   sudo: yes
-   roles:
-   - webserver
-
-# Configure and deploy NFS storage
- - hosts: storage
-   user: ubuntu
-   sudo: yes
-   roles:
-   - storage
-
 # Configure and deploy app server
 
  - hosts: appservers
@@ -34,5 +12,7 @@
      tomcat_user: tomcat
      tomcat_uid: 9999 # TODO: Move to groups var
      tomcat_gid: 9999 # TODO: Move to groups var
+   user: ec2-user # TODO: Derive from EC2
+   sudo: yes
    roles:
    - appserver

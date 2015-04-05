@@ -1,2 +1,5 @@
-[webservers]
-172.30.0.230
+[appservers]
+172.30.0.77
+
+[storage]
+localhost
