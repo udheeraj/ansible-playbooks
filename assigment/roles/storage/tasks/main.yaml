@@ -21,6 +21,10 @@
    shell: echo "{{ device }} doesn't exist. The storage host expects an EBS volume to be mounted as {{ device }}" && exit 1
    when: ansible_devices.{{ device }} is not defined
 
+# Derive the partition
+ - name: Getting the partition info
+   set_fact: partition="{{ device }}1"
+
 # Stat the Partition for the next step
  - name: Stat Partition
    stat: path=/dev/{{ partition }}

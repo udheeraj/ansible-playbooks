@@ -63,7 +63,7 @@
   ec2_vol:
      instance: "{{ storage_instance }}"
      name: "{{ volume_name }}" # Assumes a volume precreated with this volume name
-     device_name: /dev/xvdb
+     device_name: "/dev/{{ device }}"
      region: "{{ region }}"
 
 - name: Create a group for webserver
