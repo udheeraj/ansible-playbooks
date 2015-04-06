@@ -1,0 +1,79 @@
+- name: Provision appserver
+  register: appserver
+  ec2:
+      key_name: "{{ key }}"
+      instance_type: "{{ instance_type }}"
+      region: "{{ region }}"
+      vpc_subnet_id: "{{ subnet }}"
+      group:  "{{ group }}"
+      image: "{{ ami_id }}"
+      wait: true
+      exact_count: "{{ appserver_count }}"
+      count_tag:
+         class: appserver
+         environment: "{{ env }}"
+      instance_tags:
+         class: appserver
+         environment: "{{ env }}"
+
+- name: Provision webserver
+  register: webserver
+  ec2:
+      key_name: "{{ key }}"
+      instance_type: "{{ instance_type }}"
+      region: "{{ region }}"
+      vpc_subnet_id: "{{ subnet }}"
+      group:  "{{ group }}"
+      image: "{{ ami_id }}"
+      wait: true
+      exact_count: "{{ webserver_count }}"
+      count_tag:
+         class: webserver
+         environment: "{{ env }}"
+      instance_tags:
+         class: webserver
+         environment: "{{ env }}"
+
+         
+- name: Provision storage
+  register: storage
+  ec2:
+      key_name: "{{ key }}"
+      instance_type: "{{ instance_type }}"
+      region: "{{ region }}"
+      vpc_subnet_id: "{{ subnet }}"
+      group:  "{{ group }}"
+      image: "{{ ami_id }}"
+      wait: true
+      exact_count: "{{ storage_count }}"
+      count_tag:
+         class: storage
+         environment: "{{ env }}"
+      instance_tags:
+         class: storage
+         environment: "{{ env }}"
+
+
+- name: Get the instance details of storage
+  set_fact:
+    storage_instance: "{{ item.id }}"
+  with_items: storage.tagged_instances
+
+- name: Attach a Volume
+  ec2_vol:
+     instance: "{{ storage_instance }}"
+     name: "{{ volume_name }}" # Assumes a volume precreated with this volume name
+     device_name: /dev/xvdb
+     region: "{{ region }}"
+
+- name: Create a group for webserver
+  add_host: hostname={{ item.public_ip }} groups=webservers
+  with_items: webserver.tagged_instances
+
+- name: Create a group for storage
+  add_host: hostname={{ item.public_ip }} groups=storage
+  with_items: storage.tagged_instances
+
+- name: Create a group for appserver
+  add_host: hostname={{ item.public_ip }} groups=appservers
+  with_items: appserver.tagged_instances

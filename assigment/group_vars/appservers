@@ -1,0 +1,4 @@
+apps_dir: /apps
+persistence_dir: /home/russell/persistence
+persistence_dirname: persistence #TODO: derive this from above
+tomcat_ver: tomcat8

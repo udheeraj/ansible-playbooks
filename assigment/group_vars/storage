@@ -1,0 +1,3 @@
+device: xvdb
+partition: xvdb1
+fstype: xfs

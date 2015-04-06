@@ -16,6 +16,13 @@
  - name: Install NFS client
    yum: pkg=nfs-utils state=present
 
+
+# Set NFS host
+ - name: Derive NFS share location
+   set_fact: nfs_share="{{ item }}:{{ export }}"
+   with_items: hostvars[groups['storage'][0]]['ansible_eth0']['ipv4']['address'] # Assuming only host
+
+
 # Mount NFS share
  - name: Mounting NFS share
    mount: name={{ apps_dir }} src={{ nfs_share }} state=mounted fstype=nfs
@@ -34,7 +41,7 @@
 
 # Deploy the war file
  - name: Copy the war
-   copy: src=/home/ubuntu/companyNews.war dest=/usr/share/{{ tomcat_ver }}/webapps/
+   copy: src=companyNews.war dest=/usr/share/{{ tomcat_ver }}/webapps/
  
 # Start Tomcat and enable at startup
  - name: Ensure tomcat is running and enable it

@@ -1,0 +1,10 @@
+# Defaults
+ami_id:  ami-a10897d6
+region: eu-west-1
+instance_type: t2.micro
+
+# To be set manually before hand
+key: amkey
+vpc_id: vpc-899f32ec
+subnet: subnet-4336ed1a
+group: default # Security group allowing all traffic within VPC and port 22 from everywhere

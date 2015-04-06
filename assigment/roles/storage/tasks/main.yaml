@@ -9,13 +9,12 @@
 
 # We need following utilities:
  - name: Install reuqired packages
-   apt: package={{ item }} state=present
+   yum: name={{ item }} state=present update_cache=yes
    with_items:
    - parted # For creating partitions
    - xfsprogs # XFS partition better support for Glusterfs (future)
    - rpcbind # For  NFS
-   - nfs-common # Glusterfs maybe ?
-   - nfs-kernel-server
+   - nfs-utils # Glusterfs maybe ?
 
 # Checking if the device exists, if this fails its likely an EC2 provisioning issue.
  - name: Check if the Device exists
@@ -35,7 +34,16 @@
 # Mount the partition
  - name : Mount the volume
    mount: name={{ export }} src=/dev/{{ partition }} fstype={{ fstype }} state=mounted
-   sudo: yes
+
+# Create Persistence dir on NFS share
+ - name: Create Persistence dir
+   file: dest={{ export }}/persistence mode=755 owner=tomcat state=directory
+
+
+## Share the mount for private IPs (Making this generic)
+ - name : Create a list of hosts to share
+   add_host: hostname={{ hostvars[item]['ansible_eth0']['ipv4']['address'] }} groups=share_hosts
+   with_items: groups['appservers'] # Assuming eth0 as the priv IP
 
 # Setup exports (handler reload exports)
  - name : Setup exports
@@ -47,4 +55,4 @@
    service: name={{ item }} state=started enabled=yes  
    with_items:
    - rpcbind
-   - nfs-kernel-server
+   - nfs

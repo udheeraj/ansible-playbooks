@@ -1,0 +1,48 @@
+---
+
+# Pickup hosts from EC2
+# Comment this out for non-EC2 setup
+
+ - hosts: ec2
+   connection: local
+   gather_facts: False
+   vars:
+     appserver_count: 1
+     webserver_count: 1
+     storage_count: 1
+     env: training
+     volume_name: training_volume # For NFS store
+   roles:
+     - ec2_provision
+
+# Applying common to all hosts
+ - hosts:
+    - webservers
+    - appservers
+    - storage
+   user: ec2-user
+   sudo: yes
+   roles:
+   - common
+
+# Configure and deploy web server.
+ - hosts: webservers
+   user: ec2-user
+   sudo: yes
+   roles:
+   - webserver
+
+# Configure and deploy NFS storage
+ - hosts: storage
+   user: ec2-user
+   sudo: yes
+   roles:
+   - storage
+
+# Configure and deploy app server
+
+ - hosts: appservers
+   user: ec2-user
+   sudo: yes
+   roles:
+   - appserver

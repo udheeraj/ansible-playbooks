@@ -1,5 +1,5 @@
 ---
 # This role installs the common things across all servers
 
- - name: Update apt
-   apt : update_cache=yes
+# - name: Update yum
+#   yum : update_cache=yes

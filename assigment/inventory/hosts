@@ -1,0 +1,10 @@
+[ec2]
+localhost
+
+# All other groups are dynamic, for non-EC2 please populate the following
+
+[appservers]
+
+[webservers]
+
+[storage]
