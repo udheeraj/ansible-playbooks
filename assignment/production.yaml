@@ -7,7 +7,7 @@
    connection: local
    gather_facts: False
    vars:
-     appserver_count: 1
+     appserver_count: 2
      webserver_count: 1
      storage_count: 1
      # Environment specific
