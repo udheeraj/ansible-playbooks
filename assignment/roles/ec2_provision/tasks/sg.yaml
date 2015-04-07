@@ -1,0 +1,22 @@
+---
+
+ - name: Create Security Group
+   register: sg
+   ec2_group:
+    name: "{{ group }}"
+    description: Default Group for the subnet
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ region }}"
+    rules:
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0
+# SSH from Everywhere
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+
+ - name: Set the security Group name
+   set_fact: sg_id="{{ sg['group_id'] }}"

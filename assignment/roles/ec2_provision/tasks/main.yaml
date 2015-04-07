@@ -1,8 +1,10 @@
 # First host as master which is enabled behind LB.
 
+# Provision VPC and Subnets
 - include: vpc.yaml
 
-- command: /bin/false
+# Create Default security group
+- include: sg.yaml
 
 - name: Provision master appserver 
   register: appserver_master

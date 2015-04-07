@@ -7,16 +7,17 @@
    connection: local
    gather_facts: False
    vars:
-     appserver_count: 2
-     webserver_count: 2
+     appserver_count: 1
+     webserver_count: 1
      storage_count: 1
-     env: production
-     # Values of the following are based on manual actions on AWS Web Console
+     # Environment specific
+     env: Production
+     group: default_Production # Security group allowing all traffic within VPC and port 22 from everywhere
+     volume_name: Production_volume # For NFS store
      key: amkey
-     vpc_id: vpc-899f32ec
-     subnet: subnet-4336ed1a
-     group: default # Security group allowing all traffic within VPC and port 22 from everywhere
-     volume_name: production_volume # For NFS store
+     zone: eu-west-1b
+     cidr: 172.22.0.0/16
+     subnet_cidr: 172.22.2.0/24
    roles:
      - ec2_provision
 
