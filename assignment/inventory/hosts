@@ -5,6 +5,8 @@ localhost
 
 [appservers]
 
+[appservers_master]
+
 [webservers]
 
 [storage]

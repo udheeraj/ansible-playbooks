@@ -1,0 +1,3 @@
+---
+ - name: Enable LB health check only on one primary 
+   file: path=/usr/share/{{ tomcat_ver }}/webapps/ROOT/{{ status_file }} owner={{ tomcat_user }} mode=0644 state=touch

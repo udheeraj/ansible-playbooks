@@ -56,6 +56,5 @@
  - hosts: appservers_master
    user: ec2-user
    sudo: yes
-   tasks:
-   - name: Enable LB health check only on one host i.e master (tagged in EC2)
-     file: path=/usr/share/{{ tomcat_ver }}/webapps/ROOT/{{ status_file }} owner={{ tomcat_user }} mode=0644 state=touch
+   roles:
+   - appserver_master
