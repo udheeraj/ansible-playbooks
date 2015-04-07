@@ -17,6 +17,7 @@
       image: "{{ ami_id }}"
       wait: true
       exact_count: 1
+      assign_public_ip: true
       count_tag:
          class: appserver
          environment: "{{ env }}"
@@ -38,6 +39,7 @@
       image: "{{ ami_id }}"
       wait: true
       exact_count: "{{ appserver_count }}"
+      assign_public_ip: true
       count_tag:
          class: appserver
          environment: "{{ env }}"
@@ -57,6 +59,7 @@
       image: "{{ ami_id }}"
       wait: true
       exact_count: "{{ webserver_count }}"
+      assign_public_ip: true
       count_tag:
          class: webserver
          environment: "{{ env }}"
@@ -77,6 +80,7 @@
       image: "{{ ami_id }}"
       wait: true
       exact_count: "{{ storage_count }}"
+      assign_public_ip: true
       count_tag:
          class: storage
          environment: "{{ env }}"
