@@ -11,6 +11,11 @@
      webserver_count: 2
      storage_count: 1
      env: production
+     # Values of the following are based on manual actions on AWS Web Console
+     key: amkey
+     vpc_id: vpc-899f32ec
+     subnet: subnet-4336ed1a
+     group: default # Security group allowing all traffic within VPC and port 22 from everywhere
      volume_name: production_volume # For NFS store
    roles:
      - ec2_provision
@@ -47,4 +52,9 @@
    roles:
    - appserver
 
-# Configure LoadBalancer
+# Print Summary
+ - hosts: localhost
+   connection: local 
+   - tasks:
+     - debug: var=hostvars['webservers']
+

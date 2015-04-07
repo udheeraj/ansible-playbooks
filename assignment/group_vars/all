@@ -3,3 +3,4 @@ device: xvdb
 tomcat_user: tomcat
 tomcat_uid: 9999
 tomcat_gid: 9999
+status_file: status.html

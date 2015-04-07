@@ -16,6 +16,10 @@
  - name: Uncompress the zip
    command:  unzip -u -j /tmp/static.zip -d /var/www/html/ -x "*/._*"
 
+# health check file
+ - name: Create the health check
+   file: name=/var/www/html/{{ status_file }} state=touch owner=root mode=0644
+
 # Start Apache2 and enable for startup
  - name: Ensure apache is running and enable it
    service: name=httpd state=started enabled=yes

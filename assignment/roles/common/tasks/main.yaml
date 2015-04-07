@@ -2,4 +2,4 @@
 # This role installs the common things across all servers
 
 # - name: Update yum
-#   yum : update_cache=yes
+#   command : yum update -y

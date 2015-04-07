@@ -11,6 +11,11 @@
      webserver_count: 1
      storage_count: 1
      env: training
+     # Values of the following are based on manual actions on AWS Web Console
+     key: amkey
+     vpc_id: vpc-899f32ec
+     subnet: subnet-4336ed1a
+     group: default # Security group allowing all traffic within VPC and port 22 from everywhere
      volume_name: training_volume # For NFS store
    roles:
      - ec2_provision
@@ -25,6 +30,7 @@
    roles:
    - common
 
+# Print Summary
 # Configure and deploy web server.
  - hosts: webservers
    user: ec2-user
@@ -46,3 +52,10 @@
    sudo: yes
    roles:
    - appserver
+
+ - hosts: appservers_master
+   user: ec2-user
+   sudo: yes
+   tasks:
+   - name: Enable LB health check only on one host i.e master (tagged in EC2)
+     file: path=/usr/share/{{ tomcat_ver }}/webapps/ROOT/{{ status_file }} owner={{ tomcat_user }} mode=0644 state=touch

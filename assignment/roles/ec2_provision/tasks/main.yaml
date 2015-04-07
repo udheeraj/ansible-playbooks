@@ -1,3 +1,23 @@
+# First host as master which is enabled behind LB.
+- name: Provision master appserver 
+  register: appserver_master
+  ec2:
+      key_name: "{{ key }}"
+      instance_type: "{{ instance_type }}"
+      region: "{{ region }}"
+      vpc_subnet_id: "{{ subnet }}"
+      group:  "{{ group }}"
+      image: "{{ ami_id }}"
+      wait: true
+      exact_count: 1
+      count_tag:
+         class: appserver
+         environment: "{{ env }}"
+      instance_tags:
+         class: appserver
+         environment: "{{ env }}"
+         type: "primary"
+
 - name: Provision appserver
   register: appserver
   ec2:
@@ -77,3 +97,7 @@
 - name: Create a group for appserver
   add_host: hostname={{ item.public_ip }} groups=appservers
   with_items: appserver.tagged_instances
+
+- name: Create a group for appserver_maser
+  add_host: hostname={{ item.public_ip }} groups=appservers_master
+  with_items: appserver_master.tagged_instances

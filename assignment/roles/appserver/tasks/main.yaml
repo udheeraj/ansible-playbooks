@@ -8,9 +8,12 @@
  - name: Setup tomcat user
    user: name={{ tomcat_user }} comment="Apache Tomcat" uid={{ tomcat_uid }} group={{ tomcat_user }} shell=/bin/nologin
 
-# Install tomcat 
+# Install tomcat  and webapps
  - name: Install tomcat
-   yum: pkg={{ tomcat_ver }} state=present
+   yum: pkg={{ item }} state=present
+   with_items:
+    - "{{ tomcat_ver }}"
+    - "{{ tomcat_ver }}-webapps"
 
 # Install NFS utils
  - name: Install NFS client
@@ -29,7 +32,7 @@
 
 # Create Persistence dir on NFS share
  - name: Create Persistence dir
-   file: dest={{ apps_dir }}/persistence mode=755 owner=tomcat state=directory
+   file: dest={{ apps_dir }}/persistence mode=755 owner={{ tomcat_user }} state=directory
 
 # Create Persistence Directory if missing
  - name: Create Persistence Directory
@@ -42,6 +45,15 @@
 # Deploy the war file
  - name: Copy the war
    copy: src=companyNews.war dest=/usr/share/{{ tomcat_ver }}/webapps/
+
+# Remove the health check, created on master shortly after
+ - name: Remove health check
+   file: path=/usr/share/{{ tomcat_ver }}/webapps/ROOT/status.html state=absent
+
+# Delete examples etc..
+ - name: Delete unecessary stuff
+   file: path=/usr/share/{{ tomcat_ver }}/webapps/{{ item }} state=absent
+   with_items: [sample,examples]
  
 # Start Tomcat and enable at startup
  - name: Ensure tomcat is running and enable it
