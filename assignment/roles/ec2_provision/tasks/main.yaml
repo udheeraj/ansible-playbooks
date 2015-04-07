@@ -13,10 +13,12 @@
       count_tag:
          class: appserver
          environment: "{{ env }}"
+         type: "primary"
       instance_tags:
          class: appserver
          environment: "{{ env }}"
          type: "primary"
+         Name: appserver_pri
 
 - name: Provision appserver
   register: appserver
@@ -35,6 +37,7 @@
       instance_tags:
          class: appserver
          environment: "{{ env }}"
+         Name: appserver
 
 - name: Provision webserver
   register: webserver
@@ -53,6 +56,7 @@
       instance_tags:
          class: webserver
          environment: "{{ env }}"
+         Name: webserver
 
          
 - name: Provision storage
@@ -72,6 +76,7 @@
       instance_tags:
          class: storage
          environment: "{{ env }}"
+         Name: storage
 
 
 - name: Get the instance details of storage

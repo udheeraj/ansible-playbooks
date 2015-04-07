@@ -8,7 +8,7 @@
    user: name={{ tomcat_user }} comment="Apache Tomcat" uid=9999 group={{ tomcat_user }} state=present
 
 # We need following utilities:
- - name: Install reuqired packages
+ - name: Install required packages
    yum: name={{ item }} state=present update_cache=yes
    with_items:
    - parted # For creating partitions
@@ -46,7 +46,7 @@
 
 ## Share the mount for private IPs (Making this generic)
  - name : Create a list of hosts to share
-   add_host: hostname={{ hostvars[item]['ansible_eth0']['ipv4']['address'] }} groups=share_hosts
+   add_host: hostname={{ hostvars[item]['ansible_all_ipv4_addresses'][0] }} groups=share_hosts
    with_items: groups['appservers'] # Assuming eth0 as the priv IP
 
 # Setup exports (handler reload exports)
