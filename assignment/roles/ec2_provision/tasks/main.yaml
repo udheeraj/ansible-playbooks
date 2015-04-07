@@ -13,7 +13,9 @@
       instance_type: "{{ instance_type }}"
       region: "{{ region }}"
       vpc_subnet_id: "{{ subnet }}"
-      group:  "{{ group }}"
+      group:
+        - "{{ group }}"
+        - default
       image: "{{ ami_id }}"
       wait: true
       exact_count: 1
@@ -35,7 +37,9 @@
       instance_type: "{{ instance_type }}"
       region: "{{ region }}"
       vpc_subnet_id: "{{ subnet }}"
-      group:  "{{ group }}"
+      group:
+        - "{{ group }}"
+        - default
       image: "{{ ami_id }}"
       wait: true
       exact_count: "{{ appserver_count }}"
@@ -55,7 +59,9 @@
       instance_type: "{{ instance_type }}"
       region: "{{ region }}"
       vpc_subnet_id: "{{ subnet }}"
-      group:  "{{ group }}"
+      group:
+        - "{{ group }}"
+        - default
       image: "{{ ami_id }}"
       wait: true
       exact_count: "{{ webserver_count }}"
@@ -76,7 +82,9 @@
       instance_type: "{{ instance_type }}"
       region: "{{ region }}"
       vpc_subnet_id: "{{ subnet }}"
-      group:  "{{ group }}"
+      group:
+        - "{{ group }}"
+        - default
       image: "{{ ami_id }}"
       wait: true
       exact_count: "{{ storage_count }}"

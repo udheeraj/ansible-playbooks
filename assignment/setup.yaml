@@ -1,13 +1,13 @@
 ---
 # Applying common to all hosts
-# - hosts:
-#    - webservers
-#    - appservers
-#    - storage
-#   user: ec2-user
-#   sudo: yes
-#   roles:
-#   - common
+ - hosts:
+    - webservers
+    - appservers
+    - storage
+   user: ec2-user
+   sudo: yes
+   roles:
+   - common
 
 # Print Summary
 # Configure and deploy web server.
