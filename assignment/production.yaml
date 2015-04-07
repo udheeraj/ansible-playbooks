@@ -8,7 +8,7 @@
    gather_facts: False
    vars:
      appserver_count: 2
-     webserver_count: 1
+     webserver_count: 2
      storage_count: 1
      # Environment specific
      env: Production
