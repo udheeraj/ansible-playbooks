@@ -1,4 +1,9 @@
 # First host as master which is enabled behind LB.
+
+- include: vpc.yaml
+
+- command: /bin/false
+
 - name: Provision master appserver 
   register: appserver_master
   ec2:
