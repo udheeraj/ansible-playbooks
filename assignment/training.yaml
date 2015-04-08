@@ -10,13 +10,14 @@
      appserver_count: 1
      webserver_count: 1
      storage_count: 1
-     env: training
-     # Values of the following are based on manual actions on AWS Web Console
+     # Environment specific
+     env: Training
+     group: default_Training # Security group allowing all traffic within VPC and port 22 from everywhere
+     volume_name: Training_volume # For NFS store
      key: amkey
-     vpc_id: vpc-899f32ec
-     subnet: subnet-4336ed1a
-     group: default # Security group allowing all traffic within VPC and port 22 from everywhere
-     volume_name: training_volume # For NFS store
+     zone: eu-west-1b
+     cidr: 172.22.0.0/16
+     subnet_cidr: 172.22.1.0/24
    roles:
      - ec2_provision
 

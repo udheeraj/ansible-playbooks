@@ -44,9 +44,11 @@
    file: dest={{ export }}/persistence mode=755 owner=tomcat state=directory
 
 
+ - debug: var="{{ groups['appservers'] }}"
 ## Share the mount for private IPs (Making this generic)
  - name : Create a list of hosts to share
-   add_host: hostname={{ hostvars[item]['ansible_all_ipv4_addresses'][0] }} groups=share_hosts
+   add_host: hostname={{ hostvars[item]['ansible_eth0']['ipv4']['address'] }} groups=share_hosts
+#   add_host: hostname={{ hostvars[item]['ansible_all_ipv4_addresses'][0] }} groups=share_hosts
    with_items: groups['appservers'] # Assuming eth0 as the priv IP
 
 # Setup exports (handler reload exports)

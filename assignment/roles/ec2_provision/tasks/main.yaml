@@ -1,4 +1,11 @@
 # First host as master which is enabled behind LB.
+
+# Provision VPC and Subnets
+- include: vpc.yaml
+
+# Create Default security group
+- include: sg.yaml
+
 - name: Provision master appserver 
   register: appserver_master
   ec2:
@@ -6,10 +13,13 @@
       instance_type: "{{ instance_type }}"
       region: "{{ region }}"
       vpc_subnet_id: "{{ subnet }}"
-      group:  "{{ group }}"
+      group:
+        - "{{ group }}"
+        - default
       image: "{{ ami_id }}"
       wait: true
       exact_count: 1
+      assign_public_ip: true
       count_tag:
          class: appserver
          environment: "{{ env }}"
@@ -27,10 +37,13 @@
       instance_type: "{{ instance_type }}"
       region: "{{ region }}"
       vpc_subnet_id: "{{ subnet }}"
-      group:  "{{ group }}"
+      group:
+        - "{{ group }}"
+        - default
       image: "{{ ami_id }}"
       wait: true
       exact_count: "{{ appserver_count }}"
+      assign_public_ip: true
       count_tag:
          class: appserver
          environment: "{{ env }}"
@@ -46,10 +59,13 @@
       instance_type: "{{ instance_type }}"
       region: "{{ region }}"
       vpc_subnet_id: "{{ subnet }}"
-      group:  "{{ group }}"
+      group:
+        - "{{ group }}"
+        - default
       image: "{{ ami_id }}"
       wait: true
       exact_count: "{{ webserver_count }}"
+      assign_public_ip: true
       count_tag:
          class: webserver
          environment: "{{ env }}"
@@ -66,10 +82,13 @@
       instance_type: "{{ instance_type }}"
       region: "{{ region }}"
       vpc_subnet_id: "{{ subnet }}"
-      group:  "{{ group }}"
+      group:
+        - "{{ group }}"
+        - default
       image: "{{ ami_id }}"
       wait: true
       exact_count: "{{ storage_count }}"
+      assign_public_ip: true
       count_tag:
          class: storage
          environment: "{{ env }}"

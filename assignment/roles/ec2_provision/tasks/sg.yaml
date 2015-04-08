@@ -1,0 +1,24 @@
+---
+
+ - name: Create Security Group
+   register: sg
+   ec2_group:
+    name: "{{ group }}"
+    description: Default Group for the subnet
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ region }}"
+    rules:
+# SSH from Everywhere
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+# Following two rules are used by LB, TO be improved
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0
+      - proto: tcp
+        from_port: 8080
+        to_port: 8080
+        cidr_ip: 0.0.0.0/0
