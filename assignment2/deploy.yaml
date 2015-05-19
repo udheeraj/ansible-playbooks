@@ -1,0 +1,6 @@
+ - hosts: "tag_class_appserver:&tag_environment_{{env}}"
+   user: ec2-user
+   sudo: yes
+   tasks:
+   - name: Deploy helloworld war
+     copy: src={{ war }} dest="/usr/share/{{ tomcat_ver }}/webapps/helloworld.war"

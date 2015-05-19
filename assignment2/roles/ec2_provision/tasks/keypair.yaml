@@ -1,0 +1,8 @@
+---
+   - name: Create new keypair if not present
+     ec2_key:
+       name: "{{ keypair }}"
+       key_material: "{{ item }}"
+       region: "{{ region }}"
+       wait: True
+     with_file: "{{ ssh_pubkey }}"

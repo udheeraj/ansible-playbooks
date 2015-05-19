@@ -1,0 +1,13 @@
+---
+ - name: Install httpd, tomcat and webapps
+   yum: pkg={{ item }} state=present update_cache=yes
+   with_items:
+    - httpd
+    - "{{ tomcat_ver }}"
+    
+# Start Tomcat and enable at startup
+ - name: Ensure httpd and tomcat are running and enable at startup
+   service: name={{ item }} state=started enabled=yes
+   with_items:
+     - httpd
+     - "{{ tomcat_ver }}"

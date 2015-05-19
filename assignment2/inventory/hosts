@@ -1,0 +1,5 @@
+[ec2]
+localhost ansible_connection=local
+
+[all:vars]
+tomcat_ver=tomcat8

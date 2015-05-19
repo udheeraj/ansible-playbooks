@@ -1,0 +1,26 @@
+---
+# Provision the hosts
+ - hosts: localhost
+   connection: local
+   gather_facts: False
+   vars:
+     instance_type: t2.micro
+     count: 1 # Number of Instances to Launch
+     ssh_pubkey: "~/.ssh/id_rsa.pub"
+     class: appserver
+     keypair: amkey
+     group: "default_{{ env }}"
+     cidr: 172.23.0.0/16
+     subnet_cidr: 172.23.2.0/24
+     ami_id:  ami-a10897d6
+     region: eu-west-1
+     zone: eu-west-1a
+   roles:
+     - ec2_provision
+
+# Install the required packages
+ - hosts: appserver
+   user: ec2-user
+   sudo: yes
+   roles:
+     - appserver

@@ -1,0 +1,33 @@
+# Create a keypair to manage the host
+- include: keypair.yaml
+
+# Provision VPC and Subnets
+- include: vpc.yaml
+
+# Create Default security group
+- include: sg.yaml
+
+- name: Provision the appserver 
+  register: appserver
+  ec2:
+      image: "{{ ami_id }}"
+      exact_count: "{{ count }}"
+      wait: true
+      key_name: "{{ keypair }}"
+      instance_type: "{{ instance_type }}"
+      region: "{{ region }}"
+      vpc_subnet_id: "{{ subnet }}"
+      group:
+        - "{{ group }}"
+        - default
+      assign_public_ip: true
+      count_tag:
+         class: "{{ class }}"
+         environment: "{{ env }}"
+      instance_tags:
+         class: "{{ class }}"
+         environment: "{{ env }}"
+         
+- name: Create a group for appserver
+  add_host: hostname={{ item.public_ip }} groups=appserver
+  with_items: appserver.tagged_instances
